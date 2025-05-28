@@ -1,11 +1,12 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import Rating from "./rating";
+import Pricing from "./pricing";
 
 const Book = ({book}) => {
  return (
     <div className="book">
-        <Link to="/">
+        <Link to={`/books/${book.id}`}>
             <figure className='book__img--wrapper'>
                 {/* if you cant use a string is when using .../ to asset to your file 
                 but if its external web then theyll be no prob!*/}
@@ -13,32 +14,10 @@ const Book = ({book}) => {
             </figure>
         </Link>
         <div className="book__title">
-            <Link to="/" className="book__title--link">{book.title}</Link>
+            <Link to={`/books/${book.id}`} className="book__title--link">{book.title}</Link>
         </div>
-        <div className="book__ratings">
-            {
-                new Array(Math.floor(book.rating)).fill(0).map((_, index) => <FontAwesomeIcon icon="star" key= {index}/>)
-            }
-            {
-                !Number.isInteger(book.rating) && <FontAwesomeIcon icon="star-half-alt"/>
-            }
-        </div>
-        <div className="book__price">
-            {
-                book.salePrice
-                ? 
-                (
-                    <>
-                    <span className="book__price--normal">
-                        ${book.originalPrice.toFixed(2)}
-                    </span>
-                    ${book.salePrice.toFixed(2)}
-            </>
-            )
-            : (<>${book.originalPrice.toFixed(2)}</>)
-            }
-            
-        </div>
+        <Rating rating={book.rating}/>
+        <Pricing salePrice={book.salePrice} originalPrice={book.originalPrice}/>
     </div>
    );
 };
